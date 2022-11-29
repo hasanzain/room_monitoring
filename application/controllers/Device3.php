@@ -6,7 +6,7 @@ date_default_timezone_set("Asia/Jakarta");
 require APPPATH . '/libraries/REST_Controller.php';
 //use Restserver\Libraries\REST_Controller;
 
-class LocationRange extends REST_Controller
+class Device3 extends REST_Controller
 {
     /*----------------------------------------CONSTRUCTOR----------------------------------------*/
     function __construct($config = 'rest')
@@ -18,42 +18,83 @@ class LocationRange extends REST_Controller
     /*----------------------------------------GET KONTAK----------------------------------------*/
     function index_get()
     {
-        $id = $this->get('id');
-       
-        if ($id == '') {
-            $location_range = $this->db->get('location_range')->result();
-        } else {
-            $this->db->where('id', $id);
-            $location_range = $this->db->get('location_range')->result();
-        }
+        $this->db->limit(1);
+        $this->db->order_by('id', 'desc');
+        $buff1 = $this->db->get('humidity3')->result();
+        $humidity3 = $buff1[0]->value;
 
-        $this->response($location_range, 200);
+
+
+        $this->db->limit(1);
+        $this->db->order_by(
+            'id',
+            'desc'
+        );
+        $buff3 = $this->db->get('temperature3')->result();
+        $temperature3 = $buff3[0]->value;
+
+
+        $data = array([
+            "humidity3" => $humidity3,
+            "temperature3" => $temperature3,
+        ]);
+
+        $this->response($data, 200);
     }
 
-    // function index_post()
-    // {
-    //     $nilai = $this->post('nilai');
+    function index_post()
+    {
+        $humidity3 = $this->post('humidity3');
+        $temperature3 = $this->post('temperature3');
 
-    //     if ($nilai == 1){
-    //         $button = "success";
-    //         $status = "ON";
-    //     } else{
-    //         $button = "danger";
-    //         $status = "OFF";
-    //     }
-    //     $data = array(
-    //         'nama_relay'    =>   $this->post('nama_relay'),
-    //         'nilai' => $nilai,
-    //         'button' => $button,
-    //         'status' => $status,
-    //     );
-    //     $insert = $this->db->insert('relay', $data);
-    //     if ($insert) {
-    //         $this->response($data, 200);
-    //     } else {
-    //         $this->response(array('status' => 'fail', 502));
-    //     }
-    // }
+
+        // Device3
+        // -Humidity 3
+        // - temperatur 3
+
+
+        $status = 0;
+
+        if ($humidity3 != null) {
+            $dataHumidity3 = array(
+                'date' => date("Y-m-d"),
+                'time' => date("H:i:s"),
+                'value' => $humidity3,
+            );
+
+            $insertHumidity3 = $this->db->insert('humidity3', $dataHumidity3);
+            if (!$insertHumidity3) {
+                $status = 1;
+            }
+        }
+
+
+
+        if ($temperature3 != null) {
+            $dataTemperature3 = array(
+                'date' => date("Y-m-d"),
+                'time' => date("H:i:s"),
+                'value' => $temperature3,
+            );
+
+            $insertTemperature3 = $this->db->insert('temperature3', $dataTemperature3);
+            if (!$insertTemperature3) {
+                $status = 4;
+            }
+        }
+
+        // Device3
+        // -Humidity 3
+        // - temperatur 3
+
+        if ($status == 0) {
+            $this->response(array('Status' => 'Success'), 200);
+        } elseif ($status == 1) {
+            $this->response(array('Status' => 'Error on insert 1'), 200);
+        } elseif ($status == 2) {
+            $this->response(array('Status' => 'Error on insert 2'), 200);
+        }
+    }
 
     // function index_put()
     // {
@@ -87,7 +128,7 @@ class LocationRange extends REST_Controller
     //     $id = $this->delete('id');
     //     $auth = $this->delete('auth');
 
-        
+
     //     if ($auth == "batman") {
     //         $delete = $this->db->empty_table('relay');
     //     }else{

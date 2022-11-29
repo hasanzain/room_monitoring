@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-    <title>SMART CANTEEN</title>
+    <title>Room Monitoring</title>
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="<?= base_url('assets/') ?>fontawesome/css/all.min.css">
@@ -62,7 +62,7 @@
             <!-- Brand Logo -->
             <a href="" class="brand-link">
                 <img src="<?= base_url('assets/') ?>dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">SMART CANTEEN</span>
+                <span class="brand-text font-weight-light">ROOM MONITORING</span>
             </a>
 
             <!-- Sidebar -->
@@ -80,40 +80,10 @@
                             <a href="<?= base_url('monitoring/') ?>" class="nav-link">
                                 <i class="fas fa-list"></i>
                                 <p>
-                                    Riwayat Makan
+                                    Dashboard
                                 </p>
                             </a>
                         </li>
-                        <?php
-                        if ($this->session->userdata('username') == "kalijogo") {
-                        ?>
-                            <li class="nav-item">
-                                <a href="<?= base_url('monitoring/karyawan') ?>" class="nav-link">
-                                    <i class="fas fa-list"></i>
-                                    <p>
-                                        Karyawan
-                                    </p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="<?= base_url('monitoring/addKaryawan') ?>" class="nav-link">
-                                    <i class="fas fa-list"></i>
-                                    <p>
-                                        Tambahkan Karyawan
-                                    </p>
-                                </a>
-                            </li>
-                            <!-- <li class="nav-item">
-                                <a href="<?= base_url('monitoring/jamMakan') ?>" class="nav-link">
-                                    <i class="fas fa-list"></i>
-                                    <p>
-                                        Jam Makan
-                                    </p>
-                                </a>
-                            </li> -->
-                        <?php
-                        }
-                        ?>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

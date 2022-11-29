@@ -6,7 +6,7 @@ date_default_timezone_set("Asia/Jakarta");
 require APPPATH . '/libraries/REST_Controller.php';
 //use Restserver\Libraries\REST_Controller;
 
-class Login extends REST_Controller
+class Device4 extends REST_Controller
 {
     /*----------------------------------------CONSTRUCTOR----------------------------------------*/
     function __construct($config = 'rest')
@@ -15,49 +15,63 @@ class Login extends REST_Controller
         $this->load->database();
     }
 
-
+    /*----------------------------------------GET KONTAK----------------------------------------*/
     function index_get()
     {
-        $nip = $this->get('nip');
-        $password = $this->get('password');
+        $this->db->limit(1);
+        $this->db->order_by('id', 'desc');
+        $buff1 = $this->db->get('movement1')->result();
+        $movement1 = $buff1[0]->value;
 
-        
-        $this->db->where('nip', $nip);
-        $this->db->where('password', $password);
-        $absensi = $this->db->get('user')->result();
-        // $this->response($absensi, 200);
-        if ($absensi) {
-            $this->response($absensi, 200);
-        } else {
-            $this->response(array('status' => 'fail', 502));
-        }
+
+
+        $this->db->limit(1);
+        $this->db->order_by(
+            'id',
+            'desc'
+        );
+
+
+        $data = array([
+            "movement1" => $movement1,
+        ]);
+
+        $this->response($data, 200);
     }
 
-    // function index_post()
-    // {
-    //     $nama = $this->post('nama');
-    //     $nip = $this->post('nip');
-    //     $pangkat = $this->post('pangkat');
-    //     $longitude = $this->post('longitude');
-    //     $latitude = $this->post('latitude');
+    function index_post()
+    {
+        $movement1 = $this->post('movement1');
 
-      
-    //     $data = array(
-    //         'nama' => $nama,
-    //         'nip' => $nip,
-    //         'pangkat' => $pangkat,
-    //         'longitude' => $longitude,
-    //         'latitude' => $latitude,
-    //         'jam' => date("h:i:sa"),
-    //         'tanggal' => date("Y-m-d"),
-    //     );
-    //     $insert = $this->db->insert('absensi', $data);
-    //     if ($insert) {
-    //         $this->response($data, 200);
-    //     } else {
-    //         $this->response(array('status' => 'fail', 502));
-    //     }
-    // }
+
+        // Device4
+        // - movement1
+
+        $status = 0;
+
+        if ($movement1 != null) {
+            $dataMovement1 = array(
+                'date' => date("Y-m-d"),
+                'time' => date("H:i:s"),
+                'value' => $movement1,
+            );
+
+            $insertMovement1 = $this->db->insert('movement1', $dataMovement1);
+            if (!$insertMovement1) {
+                $status = 1;
+            }
+        }
+
+        // Device4
+        // - movement1
+
+
+        if ($status == 0) {
+            $this->response(array('Status' => 'Success'), 200);
+        } elseif ($status == 1) {
+            $this->response(array('Status' => 'Error on insert 1'), 200);
+        }
+    }
 
     // function index_put()
     // {
@@ -91,7 +105,7 @@ class Login extends REST_Controller
     //     $id = $this->delete('id');
     //     $auth = $this->delete('auth');
 
-        
+
     //     if ($auth == "batman") {
     //         $delete = $this->db->empty_table('relay');
     //     }else{

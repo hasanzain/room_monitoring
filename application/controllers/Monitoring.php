@@ -14,42 +14,8 @@ class Monitoring extends CI_Controller
 
     public function index()
     {
-        $nama = $this->input->post('nama');
-        $tanggal = $this->input->post('tanggal');
-        $idKaryawan = $this->input->post('idKaryawan');
-        $keterangan = $this->input->post('keterangan');
-
-        if ($nama != null) {
-            $this->db->where('nama', $nama);
-        }
-
-        if ($tanggal != null) {
-            $this->db->where('tanggal', $tanggal);
-        }
-        if ($idKaryawan != null) {
-            $this->db->where('id_karyawan', $idKaryawan);
-        }
-        if ($keterangan != null) {
-            $this->db->where('keterangan', $keterangan);
-        }
-        // else{
-        //     $this->db->where('tanggal', date("Y-m-d"));
-        // }
-
-        if ($tanggal != null && $nama != null) {
-            $this->db->limit(50);
-        }
-        $this->db->distinct('nama');
-
-
-        $this->db->order_by('id', "DESC");
-        $data = array(
-            'riwayat_makan' => $this->db->get('riwayat_makan'),
-            'tanggal' => $tanggal
-        );
-
         $this->load->view('header/header');
-        $this->load->view('v_monitoring', $data);
+        $this->load->view('v_monitoring');
         $this->load->view('header/footer');
     }
 
